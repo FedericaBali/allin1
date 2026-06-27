@@ -43,7 +43,7 @@ export function useEvents(startDate?: Date, endDate?: Date) {
         .select()
         .single()
 
-      if (error) throw error
+      if (error) throw new Error(error.message || error.details || 'Database error')
       return data as CalendarEvent
     },
     onSuccess: () => {
@@ -60,7 +60,7 @@ export function useEvents(startDate?: Date, endDate?: Date) {
         .select()
         .single()
 
-      if (error) throw error
+      if (error) throw new Error(error.message || error.details || 'Database error')
       return data as CalendarEvent
     },
     onSuccess: () => {

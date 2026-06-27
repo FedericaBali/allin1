@@ -116,7 +116,7 @@ export default function CalendarPage() {
         />
 
         {/* Calendar view */}
-        <div style={{ flex: 1, overflow: 'hidden', position: 'relative' }}>
+        <div style={{ flex: 1, overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column' }}>
           {view === 'week' && (
             <WeekView
               currentDate={currentDate}

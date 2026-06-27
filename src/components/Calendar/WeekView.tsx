@@ -195,7 +195,7 @@ const styles: Record<string, React.CSSProperties> = {
   container: {
     display: 'flex',
     flexDirection: 'column',
-    flex: 1,
+    height: '100%',
     overflow: 'hidden',
     background: 'rgba(255,255,255,0.4)',
   },
