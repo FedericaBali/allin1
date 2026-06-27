@@ -1,0 +1,16 @@
+{
+  "name": "Allin1 Calendar",
+  "short_name": "Allin1",
+  "description": "Bilingual calendar app with Google and Outlook sync",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFE4F0",
+  "theme_color": "#E879A0",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
