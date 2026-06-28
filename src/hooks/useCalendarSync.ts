@@ -27,15 +27,15 @@ export function useCalendarSync() {
 
       // Fetch events from Google Calendar API
       const now = new Date()
-      const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-      const threeMonthsAhead = new Date(now.getFullYear(), now.getMonth() + 3, 1)
+      const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 6, 1)
+      const twelveMonthsAhead = new Date(now.getFullYear(), now.getMonth() + 12, 1)
 
       const params = new URLSearchParams({
-        timeMin: oneMonthAgo.toISOString(),
-        timeMax: threeMonthsAhead.toISOString(),
+        timeMin: sixMonthsAgo.toISOString(),
+        timeMax: twelveMonthsAhead.toISOString(),
         singleEvents: 'true',
         orderBy: 'startTime',
-        maxResults: '250',
+        maxResults: '2500',
       })
 
       const response = await fetch(
