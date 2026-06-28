@@ -30,23 +30,28 @@ export function useCalendarSync() {
       const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 6, 1)
       const twelveMonthsAhead = new Date(now.getFullYear(), now.getMonth() + 12, 1)
 
-      const params = new URLSearchParams({
+      const baseParams = {
         timeMin: sixMonthsAgo.toISOString(),
         timeMax: twelveMonthsAhead.toISOString(),
         singleEvents: 'true',
         orderBy: 'startTime',
-        maxResults: '2500',
-      })
+        maxResults: '250',
+      }
 
-      const response = await fetch(
-        `https://www.googleapis.com/calendar/v3/calendars/primary/events?${params}`,
-        { headers: { Authorization: `Bearer ${providerToken}` } }
-      )
+      const googleEvents: unknown[] = []
+      let pageToken: string | undefined = undefined
 
-      if (!response.ok) throw new Error('Failed to fetch Google Calendar events')
-
-      const data = await response.json()
-      const googleEvents = data.items ?? []
+      do {
+        const params = new URLSearchParams({ ...baseParams, ...(pageToken ? { pageToken } : {}) })
+        const response = await fetch(
+          `https://www.googleapis.com/calendar/v3/calendars/primary/events?${params}`,
+          { headers: { Authorization: `Bearer ${providerToken}` } }
+        )
+        if (!response.ok) throw new Error('Failed to fetch Google Calendar events')
+        const data = await response.json()
+        googleEvents.push(...(data.items ?? []))
+        pageToken = data.nextPageToken
+      } while (pageToken)
 
       let imported = 0
       let errors = 0
