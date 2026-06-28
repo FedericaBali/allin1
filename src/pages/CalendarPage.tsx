@@ -76,16 +76,20 @@ export default function CalendarPage() {
   async function handleSync() {
     const provider = user?.app_metadata?.provider
     try {
+      let result
       if (provider === 'google') {
-        await syncGoogleCalendar()
+        result = await syncGoogleCalendar()
       } else if (provider === 'azure') {
-        await syncOutlookCalendar()
+        result = await syncOutlookCalendar()
       } else {
-        // Try both
-        await Promise.allSettled([syncGoogleCalendar(), syncOutlookCalendar()])
+        const [g] = await Promise.allSettled([syncGoogleCalendar(), syncOutlookCalendar()])
+        result = g.status === 'fulfilled' ? g.value : null
+      }
+      if (result) {
+        alert(`Sync completato! ${result.imported} eventi importati${result.errors ? `, ${result.errors} errori` : ''}.`)
       }
     } catch (e) {
-      console.error('Sync error:', e)
+      alert(`Errore sync: ${e instanceof Error ? e.message : 'Errore sconosciuto'}`)
     }
   }
 
